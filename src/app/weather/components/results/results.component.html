@@ -1,0 +1,16 @@
+<table class="table">
+  <thead class="thead-dark">
+  <tr>
+    <th scope="col">City</th>
+    <th scope="col" *ngFor="let slot of quaterTimeSlots">{{slot}}</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let f of forecast;trackBy:trackByCity" >
+    <td scope="row">{{f.city}}</td>
+    <td  *ngFor="let q of f.quaterHourForecast;trackBy:trackByQuaterTime">
+        {{q.temprature}}&deg;
+    </td>
+  </tr>
+  </tbody>
+</table>
