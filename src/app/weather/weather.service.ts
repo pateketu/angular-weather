@@ -5,25 +5,14 @@ import { Observable } from 'rxjs/Observable';
 import { map } from 'rxjs/operators';
 import { Weather } from '../model/weather';
 import { QuaterHourForecast } from '../model/quaterHourForecast';
+import { Settings } from './settings';
 @Injectable()
 export class WeatherService {
-  url = 'https://api.openweathermap.org/data/2.5/forecast';
-  params = {
-    q: '',
-    cnt: '8',
-    units: 'metric',
-    APPID: '010721642521f31b0fbc8c3831d45951'
-  };
-
   constructor(private http: HttpClient) { }
 
   searchWeatherForCity(city): Observable<QuaterHourForecast[]> {
-    this.params.q = city;
-    const apiParams = Object.keys(this.params)
-                          .map(key => `${key}=${this.params[key]}`)
-                          .join('&');
 
-    return this.http.get<Weather>(`${this.url}?${apiParams}`).pipe(
+    return this.http.get<Weather>(Settings.buildWeatherServiceUrl(city)).pipe(
         map((resp: Weather) => {
             return resp.list.map(l => ({
               time: this.toAmPmTime(l.dt),
